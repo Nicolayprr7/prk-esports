@@ -76,14 +76,16 @@ class ScrimForm(discord.ui.Modal, title='Programar Nueva Scrim'):
 
             timestamp = int(local_dt.timestamp())
             timestamp_fin = timestamp + 7200
-
+            
+# 4. Diseñar el Embed (Corregido para formato 24h nativo de Discord)
             embed = discord.Embed(
                 title=f"🎮 {self.rol.name} vs {self.rival.value}",
                 color=discord.Color.from_rgb(255, 193, 7)
             )
             embed.description = f"**Detalles:** {self.detalles.value}\n\n" \
-                                f"📅 **Horario Local:** <t:{timestamp}:d> a las <t:{timestamp}:k> — Fin: <t:{timestamp_fin}:k> hs\n" \
-                                f"⏰ **Comienza:** <t:{timestamp}:R>\n\n" \
+                                f"📅 **Fecha:** <t:{timestamp}:D>\n" \
+                                f"⏰ **Horario Local:** <t:{timestamp}:t> hs — Fin: <t:{timestamp_fin}:t> hs\n" \
+                                f"⏳ **Comienza:** <t:{timestamp}:R>\n\n" \
                                 f"📢 *Reaccionen para confirmar asistencia.*"
             
             await interaction.response.send_message(content=self.rol.mention, embed=embed)
