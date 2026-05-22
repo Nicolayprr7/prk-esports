@@ -173,5 +173,5 @@ if __name__ == "__main__":
     Thread(target=run_web_server, daemon=True).start()
     
     # Recuerda configurar tu Token real en la variable o dejarlo aquí abajo pegado
-    token = os.environ.get('DISCORD_TOKEN', 'TU_TOKEN_REAL_AQUI')
+    token = os.environ.get('DISCORD_TOKEN', 'MTUwNzIwMjM0MjAyMDMyMTMwMA.G4LAKL.PdYR4NnXJOIi2cXyT24WvmVhlLY5YxX6-9jCXM')
     client.run(token)
