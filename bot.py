@@ -3,22 +3,10 @@ from discord import app_commands
 from datetime import datetime
 import pytz
 import os
-from threading import Thread
-from http.server import HTTPServer, BaseHTTPRequestHandler
+from dotenv import load_dotenv
 
-# --- TRUCO PARA HOSTING GRATUITO (Servidor Web para Render Free) ---
-class DummyServer(BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header("Content-type", "text/html")
-        self.end_headers()
-        self.wfile.write(b"Team Spirit Bot Is Running")
+load_dotenv()
 
-def run_web_server():
-    port = int(os.environ.get("PORT", 8080))
-    server = HTTPServer(('0.0.0.0', port), DummyServer)
-    server.serve_forever()
-# ------------------------------------------------------------------
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -170,8 +158,6 @@ async def embed_creador(interaction: discord.Interaction, canal: discord.TextCha
 # ARRANQUE DEL BOT
 # ==============================================================================
 if __name__ == "__main__":
-    Thread(target=run_web_server, daemon=True).start()
-    
     # Recuerda configurar tu Token real en la variable o dejarlo aquí abajo pegado
     token = os.environ.get('DISCORD_TOKEN')
     client.run(token)
