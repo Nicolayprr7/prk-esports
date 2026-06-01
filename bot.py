@@ -187,4 +187,27 @@ class EmbedCreadorForm(discord.ui.Modal, title='Crear Mensaje Personalizado'):
         if self.imagen_url.value.strip().startswith('http'):
             embed.set_image(url=self.imagen_url.value.strip())
             
-        embed.set_footer(text="Anuncio Oficial del Serv
+        embed.set_footer(text="Anuncio Oficial del Servidor", icon_url=interaction.guild.icon.url if interaction.guild.icon else None)
+
+        try:
+            await self.canal.send(embed=embed)
+            await interaction.response.send_message(f"✅ Embed enviado correctamente al canal {self.canal.mention}", ephemeral=True)
+        except discord.Forbidden:
+            await interaction.response.send_message(f"❌ No tengo permisos necesarios para escribir en {self.canal.mention}", ephemeral=True)
+
+
+@client.tree.command(name="embed", description="Envía un embed personalizado al canal de texto que elijas")
+@app_commands.describe(canal="El canal de texto a donde se enviará el anuncio")
+async def embed_creador(interaction: discord.Interaction, canal: discord.TextChannel):
+    if interaction.user.guild_permissions.manage_messages:
+        await interaction.response.send_modal(EmbedCreadorForm(canal))
+    else:
+        await interaction.response.send_message("❌ No tienes el permiso `Gestionar Mensajes` para usar este comando.", ephemeral=True)
+
+                
+# ==============================================================================
+# ARRANQUE DEL BOT
+# ==============================================================================
+if __name__ == "__main__":
+    token = os.environ.get('DISCORD_TOKEN')
+    client.run(token)
